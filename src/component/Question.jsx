@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import questionData from "../questions.json";
 import SingleChoice from "./QuestionTypes/SingleChoice";
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import MultipleChoice from "./QuestionTypes/MultipleChoice";
 import FillBlank from "./QuestionTypes/FillBlank";
-// import LaTeXEquation from "./QuestionTypes/ketex";
-import LatexEquations from "./latexEquations";
+import SortingChoiceQuestion from "./QuestionTypes/SortingChoiceQuestion";
+import ReactHowler from "react-howler";
+import { HiSpeakerWave } from "react-icons/hi2";
+import negativeWhistle from "./music/whistled.wav";
+import positiveWhistle from "./music/whistle.mp3";
 
-const Question = () => {
-  const { Id } = useParams();
-
+const Question = ({ questionData, Id }) => {
   let AnswerArray = localStorage.getItem("answers");
   let jsonParse = JSON?.parse(AnswerArray);
   let PreviewsAnswers = jsonParse?.find((a, i) => a.questionNo === Id);
 
   const [userData, setUserData] = useState({
     flag: PreviewsAnswers?.flag || false,
-    attempts: PreviewsAnswers?.attempts || 3,
+    attempts:
+      PreviewsAnswers?.attempts === 0 ? 0 : PreviewsAnswers?.attempts || 3,
     answerChecked: PreviewsAnswers?.answerChecked || "",
     questionNo: Id,
   });
+
+  const [pop, setPop] = useState();
+  const [play, setPlay] = useState();
 
   useEffect(() => {
     if (Boolean(jsonParse)) {
@@ -48,14 +51,37 @@ const Question = () => {
 
   const handleLocal = (val) => {
     setUserData((prev) => {
-      return { ...prev, answerChecked: val.answerCheck };
+      return {
+        ...prev,
+        answerChecked: val.answerCheck,
+        attempts: userData.attempts - 1,
+      };
     });
+    setPop(true);
+    setPlay(true);
   };
+
+  const question = questionData[Id];
 
   return (
     <div className="questionContainer">
       <div className="subContainer">
-        <h2>Question {Id}</h2>
+        <div>
+          <h2 className="marginCor">
+            Question {Id} <HiSpeakerWave />
+          </h2>
+          <p>{userData.attempts} attempt(s) left</p>
+        </div>
+        {play && (
+          <ReactHowler
+            src={
+              userData.answerChecked === "Correct"
+                ? positiveWhistle
+                : negativeWhistle
+            }
+            playing={true}
+          />
+        )}
         <div className="iconContainer" onClick={handleFlag}>
           {" "}
           {userData.flag ? (
@@ -63,20 +89,49 @@ const Question = () => {
           ) : (
             <FaRegBookmark className="icon" />
           )}
-          <p style={{ margin: 0 }}>Flag for later</p>
+          <p className="marginCont">Flag for later</p>
         </div>
       </div>
-      <SingleChoice
-        data={questionData[`q${Id}`]}
-        onSubmit={handleLocal}
-        checked={userData.answerChecked}
-      />
-      <LatexEquations />
-      {/* <LaTeXEquation equation="c = \\sqrt{a^2 + b^2}" /> */}
-
-      {/* <MultipleChoice data={questionData.q2} /> */}
-      {/* <FillBlank data={questionData.q3} /> */}
-      {/* <MatrixSortingQuizApp /> */}
+      {question.type === "single" && (
+        <SingleChoice
+          data={question}
+          onSubmit={handleLocal}
+          checked={userData.answerChecked}
+          prevAns={PreviewsAnswers}
+        />
+      )}
+      {question.type === "multiple" && (
+        <MultipleChoice
+          data={question}
+          onSubmit={handleLocal}
+          checked={userData.answerChecked}
+          prevAns={PreviewsAnswers}
+        />
+      )}
+      {question.type === "fill" && (
+        <FillBlank
+          data={question}
+          onSubmit={handleLocal}
+          prevAns={PreviewsAnswers}
+        />
+      )}
+      {question.type === "sorting" && (
+        <SortingChoiceQuestion
+          data={question}
+          onSubmit={handleLocal}
+          prevAns={PreviewsAnswers}
+        />
+      )}
+      {pop && (
+        <div
+          className={"popCont"}
+          style={{
+            background: userData.answerChecked === "Correct" ? "green" : "red",
+          }}
+        >
+          {userData.answerChecked}
+        </div>
+      )}
     </div>
   );
 };

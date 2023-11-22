@@ -8,17 +8,19 @@
     "@testing-library/user-event": "^13.5.0",
     "better-react-mathjax": "^2.0.3",
     "i": "^0.3.7",
-    "katex": "^0.16.9",
     "npm": "^10.2.4",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-howler": "^5.2.0",
     "react-icons": "^4.12.0",
     "react-mathjax": "^1.0.1",
     "react-router-dom": "^6.19.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "reactjs-popup": "^2.0.6",
+    "web-vitals": "^2.1.4",
+    "words-to-numbers": "^1.5.1"
   },
   "scripts": {
     "start": "react-scripts start",

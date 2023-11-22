@@ -1,25 +1,61 @@
 {
-    "q1": {
-        "question": "Which one is correct team name in NBA?",
-        "options": [
-            "New York Bulls",
-            "Los Angeles Kings",
-            "Golden State Warriros",
-            "Huston Rocket"
-        ],
-        "answer": "Huston Rocket"
+
+    "1":{
+        "type": "single",
+        "question":"Select the missing number in the given equation.3 + ____ = 12",
+        "options": [ 6, 5, 9, 11],
+        "answer":9,
+        "questionNo":1
     },
-    "q2": {
-        "question": "'Namaste' is a traditional greeting in which Asian language?",
-        "options": [
-            "Hindi",
-            "Mandarin",
-            "Nepalese",
-            "Thai"
-        ],
-        "answer": "Hindi"
+    "2":{
+        "type": "single",
+        "question":"Find the distance between (3, 2) and (-4, 1).",
+        "options": [ "5\\sqrt2", "5\\sqrt3", "5\\sqrt5"],
+        "answer":"5\\sqrt2",
+        "questionNo":2
     },
-    "q3": {
+    "3":{
+        "type":"fill",
+        "question":"Add 5 + 6.",
+        "options": "",
+        "answer":"11",
+        "questionNo":3
+    },
+    "4":{
+        "type": "sorting",
+        "question":"Arrange the given numbers in increasing order.",
+        "options": [ 1969, 1903, 1957, 1927],
+        "answer":[ 1903, 1927, 1957, 1969],
+        "questionNo":4
+        
+    },
+    "5":{
+        "type": "fill",
+        "question":"There were 5 students in the first row and 7 students in the second row. How many students were in the first two rows?",
+        "options": "",
+        "answer":"12",
+        "questionNo":5
+    },
+    "6": {
+        "type": "multiple",
+        "question": "Which of the following equations are quadratic?",
+        "options": [
+            "6x^2 + 11x - 35 = 0",
+            "26x^2 - 64 = 0",
+            "4x^2y = 0"
+        ],
+        "answer": [0,1],
+        "questionNo":6
+    },
+    "7": {
+        "type":"fill",
+        "question": "Write the fraction for the shaded region.",
+        "options": "/static/media/shadow.e5badadf31468e120f17.png",
+        "answer": "4/9",
+        "questionNo":7
+    },
+    "8": {
+        "type": "multiple",
         "question": "The Spree river flows through which major European capital city?",
         "options": [
             "Berlin",
@@ -27,9 +63,11 @@
             "Rome",
             "London"
         ],
-        "answer": "Berlin"
+        "answer": [0,1,2],
+        "questionNo":8
     },
-    "q4": {
+    "9": {
+        "type":"single",
         "question": "Which famous artist had both a 'Rose Period' and a 'Blue Period'?",
         "options": [
             "Pablo Picasso",
@@ -37,6 +75,7 @@
             "Salvador Dalí",
             "Edgar Degas"
         ],
-        "answer": "Pablo Picasso"
+        "answer": "Pablo Picasso",
+        "questionNo":9
     }
 }

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import LatexEquations from "../latexEquations";
 
-const MultipleChoice = ({ data }) => {
+const MultipleChoice = ({ data, onSubmit, prevAns }) => {
   const [userAnswers, setUserAnswers] = React.useState([]);
+  const [correct, setCorrect] = useState(prevAns?.answerChecked || "Incorrect");
+  const [attempt, setAttempt] = useState(prevAns?.attempts);
 
   const handleToggle = (selectedOption) => {
     const updatedAnswers = [...userAnswers];
@@ -16,8 +19,19 @@ const MultipleChoice = ({ data }) => {
     setUserAnswers(updatedAnswers);
   };
 
-  const handleSubmit = () => {
-    console.log("User Answers:", userAnswers);
+  const equalsCheck = (a, b) => {
+    return JSON.stringify(a) === JSON.stringify(b);
+  };
+
+  const checkAnswer = () => {
+    setAttempt(attempt - 1);
+    if (equalsCheck(data.answer.sort(), userAnswers.sort())) {
+      onSubmit({ answerCheck: "Correct" });
+      setCorrect("Correct");
+    } else {
+      onSubmit({ answerCheck: "Incorrect" });
+      setCorrect("Incorrect");
+    }
   };
 
   return (
@@ -27,20 +41,30 @@ const MultipleChoice = ({ data }) => {
         <ul>
           {data.options.map((option, index) => (
             <li key={index}>
-              <label>
+              <label className="labelCont">
                 <input
                   type="checkbox"
                   name="answer"
                   value={index}
                   onChange={() => handleToggle(index)}
                 />
-                {option}
+                <LatexEquations latexEquation={option} />{" "}
               </label>
             </li>
           ))}
         </ul>
       </div>
-      <button onClick={handleSubmit}>Check</button>
+      {correct === "Incorrect" && attempt > 0 ? (
+        <button type="button" className="button" onClick={checkAnswer}>
+          Check
+        </button>
+      ) : (
+        <a href={`/${+data.questionNo + 1}`}>
+          <button type="button" className="button">
+            Next
+          </button>
+        </a>
+      )}
     </div>
   );
 };

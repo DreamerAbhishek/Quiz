@@ -1,32 +1,45 @@
 import React from "react";
 import "../App.css";
 import { FaBookmark } from "react-icons/fa6";
+import { FcCheckmark } from "react-icons/fc";
+import { RxCross2 } from "react-icons/rx";
 
-const QuizNumbers = () => {
+const QuizNumbers = ({ questionData, id }) => {
   let AnswerArray = localStorage.getItem("answers");
   let jsonParse = JSON?.parse(AnswerArray);
+  let questionArr = Object.values(questionData);
 
-  const arrayOfNumber = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7,
-    8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5,
-    6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3,
-    4, 5, 6, 7, 8, 9,
-  ];
+  let sortedArray = questionArr.map((t1) => ({
+    ...t1,
+    // checking value only not data type i.e. ==
+    ...jsonParse?.find((t2) => t2.questionNo == t1.questionNo),
+  }));
+
   return (
     <>
-      <h3 style={{ margin: 0 }}>Assignment Title Here</h3>
-      <hr style={{ margin: 0 }}></hr>
+      <h3 className="marginCont">Assignment Title Here</h3>
+      <hr className="marginCont"></hr>
       <div className="totalQues">
         <p>Questions:</p>
-        <p>{arrayOfNumber.length}questions</p>
+        <p>{questionArr.length}questions</p>
       </div>{" "}
-      <div
-        className="gridNumbers"
-        style={{ maxHeight: window.innerHeight - 130 }}
-      >
-        {arrayOfNumber.map((val, index) => (
-          <a className="gridItems" key={index} href={`/${index + 1}`}>
-            {val}
+      <div className="gridNumbers">
+        {sortedArray.map((val, index) => (
+          <a
+            className={
+              val.questionNo === id ? "gridItems activeButton" : "gridItems"
+            }
+            key={index}
+            href={`/${val.questionNo}`}
+          >
+            {val.answerChecked === "Correct" && (
+              <FcCheckmark className="icon" />
+            )}
+            {val.answerChecked === "Incorrect" && (
+              <RxCross2 className="icon iconCol" />
+            )}
+            {val.questionNo}
+            {val.flag && <FaBookmark className="icon" fill="orange" />}
           </a>
         ))}
       </div>
